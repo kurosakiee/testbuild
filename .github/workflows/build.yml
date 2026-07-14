@@ -1,9 +1,7 @@
-name: Android CI
+name: Generate APK
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -20,9 +18,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Gradle Cloud Runner
-        uses: gradle/actions/setup-gradle@v3
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build APK
+        run: |
+          cd project
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
-          gradle-version: 8.5
-          arguments: :project:assembleDebug
-          build-root-directory: .
+          name: app-debug-apk
+          path: project/app/build/outputs/apk/debug/*.apk
