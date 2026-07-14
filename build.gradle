@@ -1,1 +1,17 @@
-plugins { id 'com.android.application' }
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // This provides the actual com.android.application binary to the runner
+        classpath 'com.android.tools.build:gradle:8.2.2' 
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
